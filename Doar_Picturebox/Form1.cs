@@ -9,8 +9,15 @@ namespace Doar_Picturebox
             InitializeComponent();
         }
 
-     void deseneaza()
+        Color background_color; // background of the tablou
+
+        void deseneaza()
         {
+            using (Graphics g = Graphics.FromImage(Tablou.Image))
+            {
+                g.Clear(Color.LightGray);
+               // Tablou.Refresh();
+            }
 
             int nr_figuri = Convert.ToInt32(number_of_figures.Text);
 
@@ -118,39 +125,29 @@ namespace Doar_Picturebox
                     Random r3 = new Random(); int r3_width = r3.Next(20, 500);
                     Random r4 = new Random(); int r4_height = r4.Next(20, 500);
 
-                    // g.DrawEllipse(creion, r1_x, r2_y, r3_width, r4_height);
+                    using (Graphics g = Graphics.FromImage(Tablou.Image))
+                    {
+                        g.DrawEllipse(new Pen(Color.Red, 4), r1_x, r2_y, r3_width, r4_height);
+                    }
                 }
 
-
-
-                // }
-
-                // Tablou.Refresh();
-
-
-
             }
-
-            // Tablou.Refresh();
-
-
-
-
-            //draw_random_figures(Tablou.CreateGraphics());
-
-            // Tablou.Invalidate();
 
         }
 
         public void button1_Click(object sender, EventArgs e)
         {
             Bitmap bmp = new Bitmap(Tablou.Width, Tablou.Height);
+            
+           // Tablou.BackColor = Color.LightGray;
+            background_color = Color.LightGray; 
+
             //Graphics g = Graphics.FromImage(bmp);
 
             // daca inlocuiesc  Tablou.CreateGraphics()  cu g ar trebui sa mearga sa pastreze imaginea dar nu merge nici macar sa mai afiseze
             // obiectivul e si sa se pastreze imaginea, dar mai ales sa producem un bitmap pe care sa lucram dupa.
 
-           // Graphics g = Tablou.CreateGraphics();
+            // Graphics g = Tablou.CreateGraphics();
 
             //void draw_random_figures(Graphics g)
             //{
@@ -159,37 +156,40 @@ namespace Doar_Picturebox
 
             deseneaza();
 
-            for (int i = 100; i < 120; i++)
+            /*
+             * ARGB LIST
+              for (int i = 100; i < 120; i++)
             {
                 for (int j = 100; j < 120; j++)
                 {
                     Color pixel = bmp.GetPixel(i, j);
-                    bitmap_text.Text += pixel.ToString() + " ";
+                    bitmap_R_text.Text += pixel.ToString() + " ";
                 }
             }
+             */
+
+            
 
 
+            //ALPHA MATRIX
 
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Bitmap bmp = new Bitmap(Tablou.Width, Tablou.Height);
-
-            Graphics g = Graphics.FromImage(bmp);
-
-            //if (Tablou.Image == null) button2.Text = "null";
-            //else button2.Text = Tablou.Image.ToString();
-
-            for (int i = 0; i < 500; i++)
+            /*
+            for (int i = 0; i < Tablou.Width; i++)
             {
-                for (int j = 0; j < 500; j++)
+                for (int j = 0; j < Tablou.Height; j++)
                 {
                     Color pixel = bmp.GetPixel(i, j);
-                    bitmap_text.Text  += pixel.ToString() + " ";
+                    string culoare = pixel.A.ToString();
+
+                    bitmap_R_text.Text += culoare + " ";
                 }
             }
+            */
+
+
         }
+
+        
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -222,18 +222,33 @@ namespace Doar_Picturebox
         {
             var mouseEventArgs = e as MouseEventArgs;
 
-            int coordonta_x = mouseEventArgs.X;
+            int coordonata_x = mouseEventArgs.X;
             int coordonata_y = mouseEventArgs.Y;
 
-            Bitmap bmp = new Bitmap(Tablou.Width, Tablou.Height );
+            
 
-            Graphics g = Tablou.CreateGraphics();
-          //  Graphics g = Graphics.FromImage(bmp);
+            Bitmap bmp;
 
-            //if (Tablou.Image == null) button2.Text = "null";
-            //else button2.Text = Tablou.Image.ToString();
+            if (File.Exists(@"C:\Users\Adina Milica\Desktop\Figura2.jpeg"))
+            { 
+                bmp = new Bitmap(@"C:\Users\Adina Milica\Desktop\Figura2.jpeg");
+                dimensiune.Text = "DA, EXISTA FILEUL";
+            }
+            else { 
+                bmp = new Bitmap(Tablou.Width, Tablou.Height);
 
-            byte[] bmpb = BitmapData_Din_Bitmap(bmp);
+                dimensiune.Text = "NU, NU EXISTA FILEUL";
+            }
+            
+
+            
+
+
+            Graphics g = Graphics.FromImage(bmp);
+
+            
+
+            /*
 
             for (int i = 0; i < 500; i++)
             {
@@ -242,20 +257,131 @@ namespace Doar_Picturebox
 
                     if (i == coordonta_x && j == coordonata_y)
                     {
-                        //  Color pixel = bmp.GetPixel(i, j);
-                        
-                        set_color(bmpb, Tablou.Width,Color.Purple,coordonta_x + 54,coordonata_y + 54);
+                       
+                        bmp.SetPixel(i, j, Color.Purple);
+
+                        coordonate_punct_clickat.Text=i.ToString() + " " + j.ToString();
+
+                        Color pixel = bmp.GetPixel(i, j);
+                        bitmap_after_click.Text=pixel.ToString(); //vedem daca culoarea pixelului e buna
+
+
+                        break;
                     }
 
-                    //bitmap_text.Text += pixel.ToString() + " ";
+                    
                 }
             }
 
-            dimensiune.Text = bmpb.Length.ToString();
-
-            bmp = Bitmap_Din_BitmapData(bmpb);
+           
+            // cu chestia asta de jos imi pune punctu bine, o singura data
+             Tablou.Image= bmp.Clone(new Rectangle(0, 0, 500, 500), System.Drawing.Imaging.PixelFormat.DontCare);
             g.DrawImage(bmp, 0, 0);
 
+            */
+
+            //fill(bmp, coordonata_x, coordonata_y, Color.Pink);
+            Point p = new Point(coordonata_x, coordonata_y);
+            FloodFill(bmp, p, background_color, Color.Pink);
+            //g.DrawImage(bmp, 0, 0);
+
+
+
+        }
+
+        private void FloodFill(Bitmap bmp, Point pt, Color targetColor, Color replacementColor)
+        {
+            Stack<Point> pixels = new Stack<Point>();
+
+            targetColor = bmp.GetPixel(pt.X, pt.Y);
+            pixels.Push(pt);
+
+            while (pixels.Count > 0)
+            {
+                Point a = pixels.Pop();
+
+                if (a.X < bmp.Width && a.X > 0 &&
+                        a.Y < bmp.Height && a.Y > 0)//make sure we stay within bounds
+                {
+
+                    if (bmp.GetPixel(a.X, a.Y) == targetColor)
+                    {
+                        bmp.SetPixel(a.X, a.Y, replacementColor);
+                        pixels.Push(new Point(a.X - 1, a.Y));
+                        pixels.Push(new Point(a.X + 1, a.Y));
+                        pixels.Push(new Point(a.X, a.Y - 1));
+                        pixels.Push(new Point(a.X, a.Y + 1));
+
+                        dimensiune.Text = "e target color";
+                    }
+
+                    else { dimensiune.Text = "nu e target color"; }
+                   
+                }
+
+                
+            }
+            //Tablou.Refresh(); //refresh our main picture box
+            return;
+        }
+
+        public void fill(Bitmap picture, int x, int y, Color bcolor)
+        {
+            //Graphics g = Graphics.FromImage(picture);
+
+            if (x > 0 && x < picture.Width && y > 0 && y < picture.Height)
+            {
+
+                Point p = new Point(x, y);
+
+                Stack<Point> s = new Stack<Point>();
+                s.Push(p);
+
+                while (s.Count > 0)
+                {
+                    p = s.Pop();
+
+                    
+
+                    Color currentcolor = picture.GetPixel(p.X, p.Y);
+
+                    //initial era egal
+                    if (currentcolor == background_color)
+                    {
+                        //era comentat
+                        this.Refresh();
+                        picture.SetPixel(p.X, p.Y, currentcolor);
+
+                        //g.DrawImage(picture, 0, 0);
+
+                        s.Push(new Point(p.X - 1, p.Y));
+                        s.Push(new Point(p.X + 1, p.Y));
+                        s.Push(new Point(p.X, p.Y - 1));
+                        s.Push(new Point(p.X, p.Y + 1));
+                    }
+
+                }
+                dimensiune.Text = s.Count().ToString();
+
+            }
+
+
+
+        }
+
+        private void Salveaza_Click(object sender, EventArgs e)
+        {
+            sf.DefaultExt = "jpeg";
+            sf.FileName = "Figura2.jpeg";
+            sf.Filter = "JPEG files (*.jpeg)|*.jpeg|All files (*.*)|*.*";
+            sf.FilterIndex = 1;
+            sf.RestoreDirectory = true;
+            sf.ShowDialog();
+
+            
+            Tablou.Image.Save(sf.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            
         }
     }
 }
