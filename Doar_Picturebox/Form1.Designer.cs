@@ -41,6 +41,7 @@
             this.bitmap_after_click = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.verificare_event = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Tablou)).BeginInit();
             this.SuspendLayout();
             // 
@@ -154,11 +155,21 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "Coordinates of pixel:";
             // 
+            // verificare_event
+            // 
+            this.verificare_event.AutoSize = true;
+            this.verificare_event.Location = new System.Drawing.Point(1145, 506);
+            this.verificare_event.Name = "verificare_event";
+            this.verificare_event.Size = new System.Drawing.Size(112, 20);
+            this.verificare_event.TabIndex = 13;
+            this.verificare_event.Text = "verificare_event";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1353, 655);
+            this.Controls.Add(this.verificare_event);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.bitmap_after_click);
@@ -194,5 +205,6 @@
         private Label bitmap_after_click;
         private Label label2;
         private Label label3;
+        private Label verificare_event;
     }
 }

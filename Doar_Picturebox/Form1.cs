@@ -229,9 +229,9 @@ namespace Doar_Picturebox
 
             Bitmap bmp;
 
-            if (File.Exists(@"C:\Users\Adina Milica\Desktop\Figura2.jpeg"))
+            if (File.Exists(@"D:\C projects\OOP\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp"))
             { 
-                bmp = new Bitmap(@"C:\Users\Adina Milica\Desktop\Figura2.jpeg");
+                bmp = new Bitmap(@"D:\C projects\OOP\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
                 dimensiune.Text = "DA, EXISTA FILEUL";
             }
             else { 
@@ -239,50 +239,60 @@ namespace Doar_Picturebox
 
                 dimensiune.Text = "NU, NU EXISTA FILEUL";
             }
-            
 
-            
 
+
+           // toate sunt 211 pentru ca lightgray are toate coordont
+            int targetColorR = 211;
+            int targetColorG = 211;
+            int targetColorB = 211;
+
+            Color goten = bmp.GetPixel(coordonata_x, coordonata_y);
+
+            verificare_event.Text=goten.A.ToString() + " " + goten.R.ToString()+ " " +goten.G.ToString() + " " + goten.B.ToString();
 
             Graphics g = Graphics.FromImage(bmp);
 
-            
-
-            /*
-
-            for (int i = 0; i < 500; i++)
+            if (coordonata_x <= Tablou.Width && coordonata_y <= Tablou.Height)
             {
-                for (int j = 0; j < 500; j++)
-                {
+                if(goten.R == targetColorR && goten.G == targetColorG && goten.B == targetColorB )
+                   {
 
-                    if (i == coordonta_x && j == coordonata_y)
-                    {
-                       
-                        bmp.SetPixel(i, j, Color.Purple);
+                    bmp.SetPixel(coordonata_x, coordonata_y, Color.Purple); // punctul curent
 
-                        coordonate_punct_clickat.Text=i.ToString() + " " + j.ToString();
+                    //punctele din jur
 
-                        Color pixel = bmp.GetPixel(i, j);
-                        bitmap_after_click.Text=pixel.ToString(); //vedem daca culoarea pixelului e buna
+                    bmp.SetPixel(coordonata_x-1, coordonata_y, Color.Purple);
+                    bmp.SetPixel(coordonata_x+1, coordonata_y, Color.Purple);
+
+                    bmp.SetPixel(coordonata_x, coordonata_y-1, Color.Purple);
+                    bmp.SetPixel(coordonata_x, coordonata_y+1, Color.Purple);
+
+                   }
 
 
-                        break;
-                    }
+                coordonate_punct_clickat.Text = coordonata_x.ToString() + " " + coordonata_y.ToString();
 
-                    
-                }
+                Color pixel = bmp.GetPixel(coordonata_x, coordonata_y);
+                bitmap_after_click.Text = pixel.ToString(); //vedem daca culoarea pixelului e buna
+
+               
             }
 
-           
+          
+
+
             // cu chestia asta de jos imi pune punctu bine, o singura data
-             Tablou.Image= bmp.Clone(new Rectangle(0, 0, 500, 500), System.Drawing.Imaging.PixelFormat.DontCare);
+            Tablou.Image= bmp.Clone(new Rectangle(0, 0, 500, 500), System.Drawing.Imaging.PixelFormat.DontCare);
             g.DrawImage(bmp, 0, 0);
 
-            */
+            
 
             //fill(bmp, coordonata_x, coordonata_y, Color.Pink);
-            Point p = new Point(coordonata_x, coordonata_y);
-            FloodFill(bmp, p, background_color, Color.Pink);
+            
+           // Point p = new Point(coordonata_x, coordonata_y);
+            //FloodFill(bmp, p, background_color, Color.Pink);
+
             //g.DrawImage(bmp, 0, 0);
 
 
@@ -371,15 +381,15 @@ namespace Doar_Picturebox
 
         private void Salveaza_Click(object sender, EventArgs e)
         {
-            sf.DefaultExt = "jpeg";
-            sf.FileName = "Figura2.jpeg";
-            sf.Filter = "JPEG files (*.jpeg)|*.jpeg|All files (*.*)|*.*";
+            sf.DefaultExt = "bmp";
+            sf.FileName = "figura.bmp";
+            sf.Filter = "Bitmap Image (.bmp)|*.bmp";
             sf.FilterIndex = 1;
             sf.RestoreDirectory = true;
             sf.ShowDialog();
 
             
-            Tablou.Image.Save(sf.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+            Tablou.Image.Save(sf.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
 
             
         }
