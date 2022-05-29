@@ -222,16 +222,14 @@ namespace Doar_Picturebox
         {
             var mouseEventArgs = e as MouseEventArgs;
 
-            int coordonata_x = mouseEventArgs.X;
-            int coordonata_y = mouseEventArgs.Y;
-
-            
+            int x = mouseEventArgs.X;
+            int y = mouseEventArgs.Y;
 
             Bitmap bmp;
 
-            if (File.Exists(@"D:\C projects\OOP\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp"))
+            if (File.Exists(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp"))
             { 
-                bmp = new Bitmap(@"D:\C projects\OOP\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
+                bmp = new Bitmap(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
                 dimensiune.Text = "DA, EXISTA FILEUL";
             }
             else { 
@@ -241,141 +239,134 @@ namespace Doar_Picturebox
             }
 
 
+            Point pt = new Point(x, y);
+            FloodFill(bmp, pt, Color.Purple);
 
-           // toate sunt 211 pentru ca lightgray are toate coordont
+            //afisare
+            Graphics g = Graphics.FromImage(bmp);
+            Tablou.Image = bmp.Clone(new Rectangle(0, 0, 500, 500), System.Drawing.Imaging.PixelFormat.DontCare);
+            g.DrawImage(bmp, 0, 0);
+
+
+            // tre sa o salvam
+            //problema e ca filestream-ul este ocupat in momentul asta
+            // deci trebuie sa scoatem imaginea curenta din picturebox
+            //si s-o inlocuim cu asta pe care o salvam
+            Tablou.Image.Save(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura3.bmp");
+
+
+        }
+
+        public void DotOrLineMaker(Bitmap bmp, int x, int y)
+        {
+            //pune ori un punct ori o linie in interiorulunei portiuni conturate
+            //incercare de fill esuata
+
+
+           // toate sunt 211 pentru ca lightgray are toate coordonatele RGB 211
             int targetColorR = 211;
             int targetColorG = 211;
             int targetColorB = 211;
 
-            Color goten = bmp.GetPixel(coordonata_x, coordonata_y);
+            Color goten = bmp.GetPixel(x, y);
 
-            verificare_event.Text=goten.A.ToString() + " " + goten.R.ToString()+ " " +goten.G.ToString() + " " + goten.B.ToString();
+            coordonate_punct_clickat.Text = x.ToString() + " " + y.ToString();
+
+            verificare_event.Text = goten.A.ToString() + " " + goten.R.ToString() + " " + goten.G.ToString() + " " + goten.B.ToString();
 
             Graphics g = Graphics.FromImage(bmp);
 
-            if (coordonata_x <= Tablou.Width && coordonata_y <= Tablou.Height)
-            {
-                if(goten.R == targetColorR && goten.G == targetColorG && goten.B == targetColorB )
-                   {
+            // in momentul de fata ne coloreaza o linie pana la intalnirea culorii rosii
 
-                    bmp.SetPixel(coordonata_x, coordonata_y, Color.Purple); // punctul curent
+            if (x <= Tablou.Width && x >= 0 && y <= Tablou.Height && y >= 0)
+            {
+                // while(bmp.GetPixel(x, y).R == targetColorR && bmp.GetPixel(x, y).G == targetColorG && bmp.GetPixel(x, y).B == targetColorB )
+                while (bmp.GetPixel(x, y).R != 255)
+                {
+
+                    bmp.SetPixel(x, y, Color.Purple); // punctul curent
 
                     //punctele din jur
 
-                    bmp.SetPixel(coordonata_x-1, coordonata_y, Color.Purple);
-                    bmp.SetPixel(coordonata_x+1, coordonata_y, Color.Purple);
+                    bmp.SetPixel(x - 1, y, Color.Purple);
+                    bmp.SetPixel(x + 1, y, Color.Purple);
 
-                    bmp.SetPixel(coordonata_x, coordonata_y-1, Color.Purple);
-                    bmp.SetPixel(coordonata_x, coordonata_y+1, Color.Purple);
+                    bmp.SetPixel(x, y - 1, Color.Purple);
+                    bmp.SetPixel(x, y + 1, Color.Purple);
 
-                   }
+                    x = x + 2;
+
+                }
 
 
-                coordonate_punct_clickat.Text = coordonata_x.ToString() + " " + coordonata_y.ToString();
+                //coordonate_punct_clickat.Text = x.ToString() + " " + y.ToString();
 
-                Color pixel = bmp.GetPixel(coordonata_x, coordonata_y);
+                ultimul_point.Text = x.ToString();
+
+                Color pixel = bmp.GetPixel(x, y);
                 bitmap_after_click.Text = pixel.ToString(); //vedem daca culoarea pixelului e buna
 
-               
+
             }
 
-          
 
+            // AFISAREA PUNCTULUI o singura data (tot ce urmeaza necomentat)
 
-            // cu chestia asta de jos imi pune punctu bine, o singura data
-            Tablou.Image= bmp.Clone(new Rectangle(0, 0, 500, 500), System.Drawing.Imaging.PixelFormat.DontCare);
-            g.DrawImage(bmp, 0, 0);
-
-            
-
-            //fill(bmp, coordonata_x, coordonata_y, Color.Pink);
-            
-           // Point p = new Point(coordonata_x, coordonata_y);
-            //FloodFill(bmp, p, background_color, Color.Pink);
-
-            //g.DrawImage(bmp, 0, 0);
-
-
-
+           // Tablou.Image = bmp.Clone(new Rectangle(0, 0, 500, 500), System.Drawing.Imaging.PixelFormat.DontCare);
+           // g.DrawImage(bmp, 0, 0);
         }
 
-        private void FloodFill(Bitmap bmp, Point pt, Color targetColor, Color replacementColor)
+        public void FloodFill(Bitmap bmp, Point pt, Color replacementColor)
         {
-            Stack<Point> pixels = new Stack<Point>();
+           Color targetColor = bmp.GetPixel(pt.X, pt.Y);
 
-            targetColor = bmp.GetPixel(pt.X, pt.Y);
-            pixels.Push(pt);
-
-            while (pixels.Count > 0)
+            if (targetColor.ToArgb().Equals(replacementColor.ToArgb()))
             {
-                Point a = pixels.Pop();
-
-                if (a.X < bmp.Width && a.X > 0 &&
-                        a.Y < bmp.Height && a.Y > 0)//make sure we stay within bounds
-                {
-
-                    if (bmp.GetPixel(a.X, a.Y) == targetColor)
-                    {
-                        bmp.SetPixel(a.X, a.Y, replacementColor);
-                        pixels.Push(new Point(a.X - 1, a.Y));
-                        pixels.Push(new Point(a.X + 1, a.Y));
-                        pixels.Push(new Point(a.X, a.Y - 1));
-                        pixels.Push(new Point(a.X, a.Y + 1));
-
-                        dimensiune.Text = "e target color";
-                    }
-
-                    else { dimensiune.Text = "nu e target color"; }
-                   
-                }
-
+                return;
                 
             }
-            //Tablou.Refresh(); //refresh our main picture box
-            return;
-        }
 
-        public void fill(Bitmap picture, int x, int y, Color bcolor)
-        {
-            //Graphics g = Graphics.FromImage(picture);
+            Stack<Point> pixels = new Stack<Point>();
 
-            if (x > 0 && x < picture.Width && y > 0 && y < picture.Height)
+            pixels.Push(pt);
+            while (pixels.Count != 0)
             {
-
-                Point p = new Point(x, y);
-
-                Stack<Point> s = new Stack<Point>();
-                s.Push(p);
-
-                while (s.Count > 0)
+                Point temp = pixels.Pop();
+                int y1 = temp.Y;
+                while (y1 >= 0 && bmp.GetPixel(temp.X, y1) == targetColor)
                 {
-                    p = s.Pop();
-
-                    
-
-                    Color currentcolor = picture.GetPixel(p.X, p.Y);
-
-                    //initial era egal
-                    if (currentcolor == background_color)
-                    {
-                        //era comentat
-                        this.Refresh();
-                        picture.SetPixel(p.X, p.Y, currentcolor);
-
-                        //g.DrawImage(picture, 0, 0);
-
-                        s.Push(new Point(p.X - 1, p.Y));
-                        s.Push(new Point(p.X + 1, p.Y));
-                        s.Push(new Point(p.X, p.Y - 1));
-                        s.Push(new Point(p.X, p.Y + 1));
-                    }
-
+                    y1--;
                 }
-                dimensiune.Text = s.Count().ToString();
+                y1++;
+                bool spanLeft = false;
+                bool spanRight = false;
+                while (y1 < bmp.Height && bmp.GetPixel(temp.X, y1) == targetColor)
+                {
+                    bmp.SetPixel(temp.X, y1, replacementColor);
+
+                    if (!spanLeft && temp.X > 0 && bmp.GetPixel(temp.X - 1, y1) == targetColor)
+                    {
+                        pixels.Push(new Point(temp.X - 1, y1));
+                        spanLeft = true;
+                    }
+                    else if (spanLeft && temp.X - 1 == 0 && bmp.GetPixel(temp.X - 1, y1) != targetColor)
+                    {
+                        spanLeft = false;
+                    }
+                    if (!spanRight && temp.X < bmp.Width - 1 && bmp.GetPixel(temp.X + 1, y1) == targetColor)
+                    {
+                        pixels.Push(new Point(temp.X + 1, y1));
+                        spanRight = true;
+                    }
+                    else if (spanRight && temp.X < bmp.Width - 1 && bmp.GetPixel(temp.X + 1, y1) != targetColor)
+                    {
+                        spanRight = false;
+                    }
+                    y1++;
+                }
 
             }
-
-
+            //Tablou.Refresh();
 
         }
 

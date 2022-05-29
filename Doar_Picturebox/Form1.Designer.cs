@@ -42,6 +42,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.verificare_event = new System.Windows.Forms.Label();
+            this.ultimul_point = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Tablou)).BeginInit();
             this.SuspendLayout();
             // 
@@ -164,11 +165,21 @@
             this.verificare_event.TabIndex = 13;
             this.verificare_event.Text = "verificare_event";
             // 
+            // ultimul_point
+            // 
+            this.ultimul_point.AutoSize = true;
+            this.ultimul_point.Location = new System.Drawing.Point(583, 509);
+            this.ultimul_point.Name = "ultimul_point";
+            this.ultimul_point.Size = new System.Drawing.Size(50, 20);
+            this.ultimul_point.TabIndex = 14;
+            this.ultimul_point.Text = "label4";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1353, 655);
+            this.Controls.Add(this.ultimul_point);
             this.Controls.Add(this.verificare_event);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -206,5 +217,6 @@
         private Label label2;
         private Label label3;
         private Label verificare_event;
+        private Label ultimul_point;
     }
 }
