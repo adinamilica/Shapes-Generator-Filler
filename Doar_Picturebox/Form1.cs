@@ -4,6 +4,8 @@ namespace Doar_Picturebox
 {
     public partial class Form1 : Form
     {
+
+       
         public Form1()
         {
             InitializeComponent();
@@ -16,7 +18,7 @@ namespace Doar_Picturebox
             using (Graphics g = Graphics.FromImage(Tablou.Image))
             {
                 g.Clear(Color.LightGray);
-               // Tablou.Refresh();
+               
             }
 
             int nr_figuri = Convert.ToInt32(number_of_figures.Text);
@@ -44,6 +46,7 @@ namespace Doar_Picturebox
                     {
                         g.DrawRectangle(new Pen(Color.Red, 4), r);
                     }
+
                 }
 
                 else if (figure_id == 2)
@@ -240,9 +243,15 @@ namespace Doar_Picturebox
 
 
             Point pt = new Point(x, y);
-            FloodFill(bmp, pt, Color.Purple);
+
+            //vechea metoda care nu numara pixelii din portiune
+            //FloodFill(bmp, pt, Color.Purple); 
+
+            
+            FloodFillPrint(bmp, pt, Color.Purple, 0);
 
             //afisare
+
             Graphics g = Graphics.FromImage(bmp);
             Tablou.Image = bmp.Clone(new Rectangle(0, 0, 500, 500), System.Drawing.Imaging.PixelFormat.DontCare);
             g.DrawImage(bmp, 0, 0);
@@ -252,6 +261,9 @@ namespace Doar_Picturebox
             //problema e ca filestream-ul este ocupat in momentul asta
             // deci trebuie sa scoatem imaginea curenta din picturebox
             //si s-o inlocuim cu asta pe care o salvam
+
+           
+
             Tablou.Image.Save(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura3.bmp");
 
 
@@ -316,7 +328,71 @@ namespace Doar_Picturebox
            // g.DrawImage(bmp, 0, 0);
         }
 
-        public void FloodFill(Bitmap bmp, Point pt, Color replacementColor)
+        public double max_color(double R_derivat, double G_derivat, double B_derivat)
+        {
+            if(R_derivat >= G_derivat && R_derivat>=B_derivat)
+            return R_derivat;
+
+            else if(G_derivat >= R_derivat && G_derivat >= B_derivat)
+            return G_derivat;
+
+            else return B_derivat;
+        }
+        public void printColors(int nr_pixeli, Color culoare_pusa, int lungime, int latime)
+        {
+            Portiune.Text = nr_pixeli.ToString();
+            double procent = (double)((double)nr_pixeli/(double)(Tablou.Width * Tablou.Height));
+            double suprafata =(double)( (double)((double)lungime * (double)latime * (double)procent) /(double) 100);
+
+            int blue = culoare_pusa.B;
+            int red = culoare_pusa.R;
+            int green = culoare_pusa.G;
+
+            Blue_color.Text = blue.ToString();
+            Red_color.Text = red.ToString();
+            Green_color.Text = green.ToString();
+
+            double green_derivat = (double)((double)green /(double)255);
+            double red_derivat = (double) ((double) red / (double)255);
+            double blue_derivat = (double)((double)blue / (double)255);
+
+            double K = (double)(1 - max_color(red_derivat, green_derivat, red_derivat));
+            double C = (double)((double)(1 - red_derivat - K) / (double)(1-K));
+            double M = (double)((double)(1- green_derivat - K) /(double)(1-K));
+            double Y = (double)((double)(1-blue_derivat - K) / (double)(1-K));
+
+            int consum_cerneala_peCM = 2;
+            double cT = (double)( (double)suprafata / (double)consum_cerneala_peCM );
+
+            double cC = (double)((double)((double)cT * (double)C) / (double)(C + M + Y + K));
+            double cM = (double)((double)((double)cT * (double)M) / (double)(C + M + Y + K));
+            double cY = (double)((double)((double)cT * (double)Y) / (double)(C + M + Y + K));
+            double cK = (double)((double)((double)cT * (double)K) / (double)(C + M + Y + K));
+
+            
+            double cTc = double.Parse(C_total.Text);
+            cTc = cTc + cC;
+            C_total.Text = cTc.ToString();
+
+            double cTm = double.Parse(M_total.Text);
+            cTm = cTm + cM;
+            M_total.Text = cTm.ToString();
+
+            double cTy = double.Parse(Y_total.Text);
+            cTy = cTy + cY;
+            Y_total.Text = cTy.ToString();
+
+            double cTk = double.Parse(K_total.Text);
+            cTk = cTk + cK;
+            K_total.Text = cTk.ToString();
+
+            double nr_pixeli_total = double.Parse(pixeli_totali.Text);
+            nr_pixeli_total = nr_pixeli_total + nr_pixeli;
+            pixeli_totali.Text = nr_pixeli_total.ToString();
+
+        }
+
+        public void FloodFillPrint(Bitmap bmp, Point pt, Color replacementColor, int nr_pixeli)
         {
            Color targetColor = bmp.GetPixel(pt.X, pt.Y);
 
@@ -333,13 +409,17 @@ namespace Doar_Picturebox
             {
                 Point temp = pixels.Pop();
                 int y1 = temp.Y;
+
                 while (y1 >= 0 && bmp.GetPixel(temp.X, y1) == targetColor)
                 {
                     y1--;
                 }
+
                 y1++;
+
                 bool spanLeft = false;
                 bool spanRight = false;
+
                 while (y1 < bmp.Height && bmp.GetPixel(temp.X, y1) == targetColor)
                 {
                     bmp.SetPixel(temp.X, y1, replacementColor);
@@ -347,21 +427,103 @@ namespace Doar_Picturebox
                     if (!spanLeft && temp.X > 0 && bmp.GetPixel(temp.X - 1, y1) == targetColor)
                     {
                         pixels.Push(new Point(temp.X - 1, y1));
+                        nr_pixeli++;
+
                         spanLeft = true;
                     }
+
+
                     else if (spanLeft && temp.X - 1 == 0 && bmp.GetPixel(temp.X - 1, y1) != targetColor)
                     {
                         spanLeft = false;
                     }
+
+
+                    if (!spanRight && temp.X < bmp.Width - 1 && bmp.GetPixel(temp.X + 1, y1) == targetColor)
+                    {
+                        pixels.Push(new Point(temp.X + 1, y1));
+                        nr_pixeli++;
+
+                        spanRight = true;
+                    }
+
+
+                    else if (spanRight && temp.X < bmp.Width - 1 && bmp.GetPixel(temp.X + 1, y1) != targetColor)
+                    {
+                        spanRight = false;
+                    }
+
+
+                    y1++;
+                }
+
+            }
+            
+            //Tablou.Refresh();
+
+            printColors(nr_pixeli,replacementColor, 100,100);
+
+        }
+
+        public void FloodFill(Bitmap bmp, Point pt, Color replacementColor)
+        {
+            Color targetColor = bmp.GetPixel(pt.X, pt.Y);
+
+            if (targetColor.ToArgb().Equals(replacementColor.ToArgb()))
+            {
+                return;
+
+            }
+
+            Stack<Point> pixels = new Stack<Point>();
+
+            pixels.Push(pt);
+            while (pixels.Count != 0)
+            {
+                Point temp = pixels.Pop();
+                int y1 = temp.Y;
+
+                while (y1 >= 0 && bmp.GetPixel(temp.X, y1) == targetColor)
+                {
+                    y1--;
+                }
+
+                y1++;
+
+                bool spanLeft = false;
+                bool spanRight = false;
+
+                while (y1 < bmp.Height && bmp.GetPixel(temp.X, y1) == targetColor)
+                {
+                    bmp.SetPixel(temp.X, y1, replacementColor);
+
+                    if (!spanLeft && temp.X > 0 && bmp.GetPixel(temp.X - 1, y1) == targetColor)
+                    {
+                        pixels.Push(new Point(temp.X - 1, y1));
+
+                        spanLeft = true;
+                    }
+
+
+                    else if (spanLeft && temp.X - 1 == 0 && bmp.GetPixel(temp.X - 1, y1) != targetColor)
+                    {
+                        spanLeft = false;
+                    }
+
+
                     if (!spanRight && temp.X < bmp.Width - 1 && bmp.GetPixel(temp.X + 1, y1) == targetColor)
                     {
                         pixels.Push(new Point(temp.X + 1, y1));
                         spanRight = true;
                     }
+
+
                     else if (spanRight && temp.X < bmp.Width - 1 && bmp.GetPixel(temp.X + 1, y1) != targetColor)
                     {
                         spanRight = false;
                     }
+
+
                     y1++;
                 }
 

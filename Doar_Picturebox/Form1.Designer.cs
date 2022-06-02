@@ -31,7 +31,6 @@
             this.Tablou = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.number_of_figures = new System.Windows.Forms.TextBox();
-            this.bitmap_R_text = new System.Windows.Forms.Label();
             this.sf = new System.Windows.Forms.SaveFileDialog();
             this.button3 = new System.Windows.Forms.Button();
             this.dimensiune = new System.Windows.Forms.Label();
@@ -43,6 +42,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.verificare_event = new System.Windows.Forms.Label();
             this.ultimul_point = new System.Windows.Forms.Label();
+            this.Portiune = new System.Windows.Forms.Label();
+            this.Blue_color = new System.Windows.Forms.Label();
+            this.Red_color = new System.Windows.Forms.Label();
+            this.Green_color = new System.Windows.Forms.Label();
+            this.C_total = new System.Windows.Forms.Label();
+            this.M_total = new System.Windows.Forms.Label();
+            this.Y_total = new System.Windows.Forms.Label();
+            this.K_total = new System.Windows.Forms.Label();
+            this.pixeli_totali = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Tablou)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,15 +80,6 @@
             this.number_of_figures.Name = "number_of_figures";
             this.number_of_figures.Size = new System.Drawing.Size(180, 27);
             this.number_of_figures.TabIndex = 2;
-            // 
-            // bitmap_R_text
-            // 
-            this.bitmap_R_text.Font = new System.Drawing.Font("Segoe UI", 3F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.bitmap_R_text.Location = new System.Drawing.Point(569, 9);
-            this.bitmap_R_text.Name = "bitmap_R_text";
-            this.bitmap_R_text.Size = new System.Drawing.Size(543, 332);
-            this.bitmap_R_text.TabIndex = 4;
-            this.bitmap_R_text.Text = "The bitmap on RED";
             // 
             // button3
             // 
@@ -174,11 +173,101 @@
             this.ultimul_point.TabIndex = 14;
             this.ultimul_point.Text = "label4";
             // 
+            // Portiune
+            // 
+            this.Portiune.AutoSize = true;
+            this.Portiune.Location = new System.Drawing.Point(660, 67);
+            this.Portiune.Name = "Portiune";
+            this.Portiune.Size = new System.Drawing.Size(162, 20);
+            this.Portiune.TabIndex = 15;
+            this.Portiune.Text = "Numarul de pixeli este ";
+            // 
+            // Blue_color
+            // 
+            this.Blue_color.AutoSize = true;
+            this.Blue_color.Location = new System.Drawing.Point(865, 157);
+            this.Blue_color.Name = "Blue_color";
+            this.Blue_color.Size = new System.Drawing.Size(38, 20);
+            this.Blue_color.TabIndex = 16;
+            this.Blue_color.Text = "blue";
+            // 
+            // Red_color
+            // 
+            this.Red_color.AutoSize = true;
+            this.Red_color.Location = new System.Drawing.Point(660, 157);
+            this.Red_color.Name = "Red_color";
+            this.Red_color.Size = new System.Drawing.Size(31, 20);
+            this.Red_color.TabIndex = 17;
+            this.Red_color.Text = "red";
+            // 
+            // Green_color
+            // 
+            this.Green_color.AutoSize = true;
+            this.Green_color.Location = new System.Drawing.Point(750, 157);
+            this.Green_color.Name = "Green_color";
+            this.Green_color.Size = new System.Drawing.Size(47, 20);
+            this.Green_color.TabIndex = 18;
+            this.Green_color.Text = "green";
+            // 
+            // C_total
+            // 
+            this.C_total.AutoSize = true;
+            this.C_total.Location = new System.Drawing.Point(660, 195);
+            this.C_total.Name = "C_total";
+            this.C_total.Size = new System.Drawing.Size(17, 20);
+            this.C_total.TabIndex = 19;
+            this.C_total.Text = "0";
+            // 
+            // M_total
+            // 
+            this.M_total.AutoSize = true;
+            this.M_total.Location = new System.Drawing.Point(660, 225);
+            this.M_total.Name = "M_total";
+            this.M_total.Size = new System.Drawing.Size(17, 20);
+            this.M_total.TabIndex = 20;
+            this.M_total.Text = "0";
+            // 
+            // Y_total
+            // 
+            this.Y_total.AutoSize = true;
+            this.Y_total.Location = new System.Drawing.Point(743, 195);
+            this.Y_total.Name = "Y_total";
+            this.Y_total.Size = new System.Drawing.Size(17, 20);
+            this.Y_total.TabIndex = 21;
+            this.Y_total.Text = "0";
+            // 
+            // K_total
+            // 
+            this.K_total.AutoSize = true;
+            this.K_total.Location = new System.Drawing.Point(747, 225);
+            this.K_total.Name = "K_total";
+            this.K_total.Size = new System.Drawing.Size(17, 20);
+            this.K_total.TabIndex = 22;
+            this.K_total.Text = "0";
+            // 
+            // pixeli_totali
+            // 
+            this.pixeli_totali.AutoSize = true;
+            this.pixeli_totali.Location = new System.Drawing.Point(660, 103);
+            this.pixeli_totali.Name = "pixeli_totali";
+            this.pixeli_totali.Size = new System.Drawing.Size(17, 20);
+            this.pixeli_totali.TabIndex = 23;
+            this.pixeli_totali.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1353, 655);
+            this.Controls.Add(this.pixeli_totali);
+            this.Controls.Add(this.K_total);
+            this.Controls.Add(this.Y_total);
+            this.Controls.Add(this.M_total);
+            this.Controls.Add(this.C_total);
+            this.Controls.Add(this.Green_color);
+            this.Controls.Add(this.Red_color);
+            this.Controls.Add(this.Blue_color);
+            this.Controls.Add(this.Portiune);
             this.Controls.Add(this.ultimul_point);
             this.Controls.Add(this.verificare_event);
             this.Controls.Add(this.label3);
@@ -189,7 +278,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dimensiune);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.bitmap_R_text);
             this.Controls.Add(this.number_of_figures);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.Tablou);
@@ -206,7 +294,6 @@
         private PictureBox Tablou;
         private Button button1;
         private TextBox number_of_figures;
-        private Label bitmap_R_text;
         private SaveFileDialog sf;
         private Button button3;
         private Label dimensiune;
@@ -218,5 +305,14 @@
         private Label label3;
         private Label verificare_event;
         private Label ultimul_point;
+        private Label Portiune;
+        private Label Blue_color;
+        private Label Red_color;
+        private Label Green_color;
+        private Label C_total;
+        private Label M_total;
+        private Label Y_total;
+        private Label K_total;
+        private Label pixeli_totali;
     }
 }
