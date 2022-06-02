@@ -247,8 +247,17 @@ namespace Doar_Picturebox
             //vechea metoda care nu numara pixelii din portiune
             //FloodFill(bmp, pt, Color.Purple); 
 
-            
-            FloodFillPrint(bmp, pt, Color.Purple, 0);
+            Color targetColor = bmp.GetPixel(x, y);
+            Color replacementColor = Color.Purple;
+
+
+            if (targetColor.ToArgb().Equals(replacementColor.ToArgb()))
+            {
+                return;
+
+            }
+            else
+                FloodFillPrint(bmp, pt, Color.Purple, 0);
 
             //afisare
 
@@ -262,11 +271,44 @@ namespace Doar_Picturebox
             // deci trebuie sa scoatem imaginea curenta din picturebox
             //si s-o inlocuim cu asta pe care o salvam
 
-           
+            
+            //bmp.Dispose();
 
-            Tablou.Image.Save(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura3.bmp");
+            
 
+            Tablou.Image.Save(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura_tmp.bmp");
 
+            bmp.Dispose();
+
+            bmp = null;
+
+            Tablou.Image.Dispose();
+
+            Tablou.Image = null;
+
+           // bmp = new Bitmap(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura_tmp.bmp");
+
+           // Tablou.Image = bmp;
+
+            System.GC.Collect();
+            System.GC.WaitForPendingFinalizers();
+
+            try { 
+            File.Delete(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
+            }
+
+            catch
+            {
+               
+                Tablou.Image = bmp;
+            }
+
+            System.IO.File.Move(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura_tmp.bmp",
+                                @"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
+
+             bmp = new Bitmap(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
+
+             Tablou.Image = bmp;
         }
 
         public void DotOrLineMaker(Bitmap bmp, int x, int y)
@@ -392,15 +434,12 @@ namespace Doar_Picturebox
 
         }
 
+        
         public void FloodFillPrint(Bitmap bmp, Point pt, Color replacementColor, int nr_pixeli)
         {
            Color targetColor = bmp.GetPixel(pt.X, pt.Y);
 
-            if (targetColor.ToArgb().Equals(replacementColor.ToArgb()))
-            {
-                return;
-                
-            }
+            
 
             Stack<Point> pixels = new Stack<Point>();
 
@@ -458,9 +497,10 @@ namespace Doar_Picturebox
                 }
 
             }
-            
+
             //Tablou.Refresh();
 
+            
             printColors(nr_pixeli,replacementColor, 100,100);
 
         }
