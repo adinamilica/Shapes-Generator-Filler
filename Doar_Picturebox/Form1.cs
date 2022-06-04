@@ -4,20 +4,27 @@ namespace Doar_Picturebox
 {
     public partial class Form1 : Form
     {
+        public string selected_shape="0";
 
+        public Color background_color = Color.LightGray;
+
+        public Color brush_color = Color.Red;
+
+        public Color fill_color = Color.Purple;
        
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        Color background_color; // background of the tablou
+        
 
         void deseneaza()
         {
             using (Graphics g = Graphics.FromImage(Tablou.Image))
             {
-                g.Clear(Color.LightGray);
+                g.Clear(background_color);
                
             }
 
@@ -138,67 +145,10 @@ namespace Doar_Picturebox
 
         }
 
-        public void button1_Click(object sender, EventArgs e)
-        {
-            Bitmap bmp = new Bitmap(Tablou.Width, Tablou.Height);
-            
-           // Tablou.BackColor = Color.LightGray;
-            background_color = Color.LightGray; 
-
-            //Graphics g = Graphics.FromImage(bmp);
-
-            // daca inlocuiesc  Tablou.CreateGraphics()  cu g ar trebui sa mearga sa pastreze imaginea dar nu merge nici macar sa mai afiseze
-            // obiectivul e si sa se pastreze imaginea, dar mai ales sa producem un bitmap pe care sa lucram dupa.
-
-            // Graphics g = Tablou.CreateGraphics();
-
-            //void draw_random_figures(Graphics g)
-            //{
-
-            Tablou.Image = bmp;
-
-            deseneaza();
-
-            /*
-             * ARGB LIST
-              for (int i = 100; i < 120; i++)
-            {
-                for (int j = 100; j < 120; j++)
-                {
-                    Color pixel = bmp.GetPixel(i, j);
-                    bitmap_R_text.Text += pixel.ToString() + " ";
-                }
-            }
-             */
-
-            
-
-
-            //ALPHA MATRIX
-
-            /*
-            for (int i = 0; i < Tablou.Width; i++)
-            {
-                for (int j = 0; j < Tablou.Height; j++)
-                {
-                    Color pixel = bmp.GetPixel(i, j);
-                    string culoare = pixel.A.ToString();
-
-                    bitmap_R_text.Text += culoare + " ";
-                }
-            }
-            */
-
-
-        }
 
         
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            
-
-        }
+       
 
         byte[] BitmapData_Din_Bitmap(Bitmap bmp)
         {
@@ -244,8 +194,7 @@ namespace Doar_Picturebox
 
             Point pt = new Point(x, y);
 
-            //vechea metoda care nu numara pixelii din portiune
-            //FloodFill(bmp, pt, Color.Purple); 
+            
 
             Color targetColor = bmp.GetPixel(x, y);
             Color replacementColor = Color.Purple;
@@ -266,16 +215,6 @@ namespace Doar_Picturebox
             g.DrawImage(bmp, 0, 0);
 
 
-            // tre sa o salvam
-            //problema e ca filestream-ul este ocupat in momentul asta
-            // deci trebuie sa scoatem imaginea curenta din picturebox
-            //si s-o inlocuim cu asta pe care o salvam
-
-            
-            //bmp.Dispose();
-
-            
-
             Tablou.Image.Save(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura_tmp.bmp");
 
             bmp.Dispose();
@@ -286,9 +225,7 @@ namespace Doar_Picturebox
 
             Tablou.Image = null;
 
-           // bmp = new Bitmap(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura_tmp.bmp");
-
-           // Tablou.Image = bmp;
+           
 
             System.GC.Collect();
             System.GC.WaitForPendingFinalizers();
@@ -311,64 +248,7 @@ namespace Doar_Picturebox
              Tablou.Image = bmp;
         }
 
-        public void DotOrLineMaker(Bitmap bmp, int x, int y)
-        {
-            //pune ori un punct ori o linie in interiorulunei portiuni conturate
-            //incercare de fill esuata
-
-
-           // toate sunt 211 pentru ca lightgray are toate coordonatele RGB 211
-            int targetColorR = 211;
-            int targetColorG = 211;
-            int targetColorB = 211;
-
-            Color goten = bmp.GetPixel(x, y);
-
-            coordonate_punct_clickat.Text = x.ToString() + " " + y.ToString();
-
-            verificare_event.Text = goten.A.ToString() + " " + goten.R.ToString() + " " + goten.G.ToString() + " " + goten.B.ToString();
-
-            Graphics g = Graphics.FromImage(bmp);
-
-            // in momentul de fata ne coloreaza o linie pana la intalnirea culorii rosii
-
-            if (x <= Tablou.Width && x >= 0 && y <= Tablou.Height && y >= 0)
-            {
-                // while(bmp.GetPixel(x, y).R == targetColorR && bmp.GetPixel(x, y).G == targetColorG && bmp.GetPixel(x, y).B == targetColorB )
-                while (bmp.GetPixel(x, y).R != 255)
-                {
-
-                    bmp.SetPixel(x, y, Color.Purple); // punctul curent
-
-                    //punctele din jur
-
-                    bmp.SetPixel(x - 1, y, Color.Purple);
-                    bmp.SetPixel(x + 1, y, Color.Purple);
-
-                    bmp.SetPixel(x, y - 1, Color.Purple);
-                    bmp.SetPixel(x, y + 1, Color.Purple);
-
-                    x = x + 2;
-
-                }
-
-
-                //coordonate_punct_clickat.Text = x.ToString() + " " + y.ToString();
-
-                ultimul_point.Text = x.ToString();
-
-                Color pixel = bmp.GetPixel(x, y);
-                bitmap_after_click.Text = pixel.ToString(); //vedem daca culoarea pixelului e buna
-
-
-            }
-
-
-            // AFISAREA PUNCTULUI o singura data (tot ce urmeaza necomentat)
-
-           // Tablou.Image = bmp.Clone(new Rectangle(0, 0, 500, 500), System.Drawing.Imaging.PixelFormat.DontCare);
-           // g.DrawImage(bmp, 0, 0);
-        }
+       
 
         public double max_color(double R_derivat, double G_derivat, double B_derivat)
         {
@@ -572,7 +452,22 @@ namespace Doar_Picturebox
 
         }
 
-        private void Salveaza_Click(object sender, EventArgs e)
+        
+        private void RandomShapesGenerator_Click(object sender, EventArgs e)
+        {
+            Bitmap bmp = new Bitmap(Tablou.Width, Tablou.Height);
+
+            // Tablou.BackColor = Color.LightGray;
+            background_color = Color.LightGray;
+
+            Tablou.Image = bmp;
+
+            deseneaza();
+
+
+        }
+
+        private void SavePainting_Click(object sender, EventArgs e)
         {
             sf.DefaultExt = "bmp";
             sf.FileName = "figura.bmp";
@@ -581,10 +476,251 @@ namespace Doar_Picturebox
             sf.RestoreDirectory = true;
             sf.ShowDialog();
 
-            
+
             Tablou.Image.Save(sf.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+        }
+
+       public void draw_random_lines()
+        {
+            using (Graphics g = Graphics.FromImage(Tablou.Image))
+            {
+                background_color = BackgroundColor.BackColor;
+                g.Clear(background_color);
+
+            }
+
+            int nr_figuri = Convert.ToInt32(number_selected_shapes.Text);
+
+            for (int i = 1; i <= nr_figuri; i++)
+            {
+              
+                //draw line
+                Random r1 = new Random(); int r1_x = r1.Next(0, 500);
+                Random r2 = new Random(); int r2_y = r2.Next(0, 500);
+
+                Random r3 = new Random(); int r3_x = r3.Next(0, 500);
+                Random r4 = new Random(); int r4_y = r4.Next(0, 500);
+
+                Point p1 = new Point(r1_x, r2_y);
+                Point p2 = new Point(r3_x, r4_y);
+
+                using (Graphics g = Graphics.FromImage(Tablou.Image))
+                {
+                    g.DrawLine(new Pen(BrushColor.BackColor, 4), p1, p2);
+                }
+
+            }
+
+        }
+
+        public void draw_random_rectangles()
+        {
+            using (Graphics g = Graphics.FromImage(Tablou.Image))
+            {
+                background_color = BackgroundColor.BackColor;
+                g.Clear(background_color);
+
+            }
+
+            int nr_figuri = Convert.ToInt32(number_selected_shapes.Text);
+
+            for (int i = 1; i <= nr_figuri; i++)
+            {
+
+
+                Random r1 = new Random(); int r1_x = r1.Next(0, 500);
+                Random r2 = new Random(); int r2_y = r2.Next(0, 500);
+
+                Random r3 = new Random(); int r3_width = r3.Next(20, 500);
+                Random r4 = new Random(); int r4_height = r4.Next(20, 500);
+
+
+
+                Rectangle r = new Rectangle(r1_x, r2_y, r3_width, r4_height);
+
+                using (Graphics g = Graphics.FromImage(Tablou.Image))
+                {
+                    g.DrawRectangle(new Pen(BrushColor.BackColor, 4), r);
+                }
+
+            }
+        }
+
+        public void draw_random_triangles()
+        {
+            using (Graphics g = Graphics.FromImage(Tablou.Image))
+            {
+                background_color = BackgroundColor.BackColor;
+                g.Clear(background_color);
+
+            }
+
+            int nr_figuri = Convert.ToInt32(number_selected_shapes.Text);
+
+            for (int i = 1; i <= nr_figuri; i++)
+            {
+
+
+                //draw triangle
+                Random r1 = new Random(); int r1_x = r1.Next(0, 500);
+                Random r2 = new Random(); int r2_y = r2.Next(0, 500);
+
+                Random r3 = new Random(); int r3_x = r3.Next(0, 500);
+                Random r4 = new Random(); int r4_y = r4.Next(0, 500);
+
+                Random r5 = new Random(); int r5_x = r5.Next(0, 500);
+                Random r6 = new Random(); int r6_y = r6.Next(0, 500);
+
+
+
+                Point[] Triangle_points = new Point[] { new Point { X = r1_x, Y = r2_y }, new Point { X = r3_x, Y = r4_y }, new Point { X = r5_x, Y = r6_y } };
+
+                using (Graphics g = Graphics.FromImage(Tablou.Image))
+                {
+                    g.DrawPolygon(new Pen(BrushColor.BackColor, 4), Triangle_points);
+                }
+
+
+
+            }
+        }
+
+        public void draw_random_beziers()
+        {
+
+            using (Graphics g = Graphics.FromImage(Tablou.Image))
+            {
+                background_color = BackgroundColor.BackColor;
+                g.Clear(background_color);
+
+            }
+
+            int nr_figuri = Convert.ToInt32(number_selected_shapes.Text);
+
+            for (int i = 1; i <= nr_figuri; i++)
+            {
+
+                //draw Bezier curve
+                Random r1 = new Random(); int r1_x = r1.Next(0, 500);
+                Random r2 = new Random(); int r2_y = r2.Next(0, 500);
+
+                Random r3 = new Random(); int r3_x = r3.Next(0, 500);
+                Random r4 = new Random(); int r4_y = r4.Next(0, 500);
+
+                Random r5 = new Random(); int r5_x = r5.Next(0, 500);
+                Random r6 = new Random(); int r6_y = r6.Next(0, 500);
+
+                Random r7 = new Random(); int r7_x = r7.Next(0, 500);
+                Random r8 = new Random(); int r8_y = r8.Next(0, 500);
+
+
+
+                Point p1 = new Point(r1_x, r2_y);
+                Point p2 = new Point(r3_x, r4_y);
+                Point p3 = new Point(r5_x, r6_y);
+                Point p4 = new Point(r7_x, r8_y);
+
+                using (Graphics g = Graphics.FromImage(Tablou.Image))
+                {
+                    g.DrawBezier(new Pen(BrushColor.BackColor, 4), p1, p2, p3, p4);
+                }
+
+            }
+
+        }
+
+        public void draw_random_elipses()
+        {
+
+            using (Graphics g = Graphics.FromImage(Tablou.Image))
+            {
+                background_color = BackgroundColor.BackColor;
+                g.Clear(background_color);
+
+            }
+
+            int nr_figuri = Convert.ToInt32(number_selected_shapes.Text);
+
+            for (int i = 1; i <= nr_figuri; i++)
+            {
+
+
+                Random r1 = new Random(); int r1_x = r1.Next(0, 500);
+                Random r2 = new Random(); int r2_y = r2.Next(0, 500);
+
+                Random r3 = new Random(); int r3_width = r3.Next(20, 500);
+                Random r4 = new Random(); int r4_height = r4.Next(20, 500);
+
+                using (Graphics g = Graphics.FromImage(Tablou.Image))
+                {
+                    g.DrawEllipse(new Pen(BrushColor.BackColor, 4), r1_x, r2_y, r3_width, r4_height);
+                }
+
+
+
+            }
+
+        }
+        private void RandomSelectedShapesRun_Click(object sender, EventArgs e)
+        {
+            Bitmap bmp = new Bitmap(Tablou.Width, Tablou.Height);
+
+            // Tablou.BackColor = Color.LightGray;
+            background_color = Color.LightGray;
+
+            Tablou.Image = bmp;
+
+                 if(selected_shape=="0")
+                    draw_random_lines();
+
+            else if (selected_shape == "1")
+                    draw_random_triangles();
+
+            else if (selected_shape=="2")
+                    draw_random_rectangles();
+
+            else if (selected_shape == "3")
+                    draw_random_elipses();
+
+            else
+                    draw_random_beziers();
 
             
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selected_shape = comboBox1.SelectedIndex.ToString();
+            
+        }
+
+        private void BackgroundColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                background_color= colorDialog1.Color;
+
+                BackgroundColor.BackColor=background_color;
+
+                
+
+                Tablou.BackColor = background_color;
+
+
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                brush_color = colorDialog1.Color;
+
+                BrushColor.BackColor = brush_color;
+
+            }
+
         }
     }
 }
