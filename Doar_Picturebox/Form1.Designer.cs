@@ -31,14 +31,7 @@
             this.Tablou = new System.Windows.Forms.PictureBox();
             this.number_of_figures = new System.Windows.Forms.TextBox();
             this.sf = new System.Windows.Forms.SaveFileDialog();
-            this.dimensiune = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.coordonate_punct_clickat = new System.Windows.Forms.Label();
-            this.bitmap_after_click = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.verificare_event = new System.Windows.Forms.Label();
-            this.ultimul_point = new System.Windows.Forms.Label();
             this.Portiune = new System.Windows.Forms.Label();
             this.Blue_color = new System.Windows.Forms.Label();
             this.Red_color = new System.Windows.Forms.Label();
@@ -62,6 +55,13 @@
             this.label7 = new System.Windows.Forms.Label();
             this.BrushColor = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.pd = new System.Windows.Forms.PrintDialog();
+            this.printDocument = new System.Drawing.Printing.PrintDocument();
+            this.FillColor = new System.Windows.Forms.PictureBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.dimensiune = new System.Windows.Forms.Label();
+            this.InkCalculator = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Tablou)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RandomFiguresGenerator)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SavePainting)).BeginInit();
@@ -69,6 +69,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.RandomSelectedShapesRun)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BackgroundColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BrushColor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FillColor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.InkCalculator)).BeginInit();
             this.SuspendLayout();
             // 
             // Tablou
@@ -91,16 +93,6 @@
             this.number_of_figures.Size = new System.Drawing.Size(100, 25);
             this.number_of_figures.TabIndex = 2;
             // 
-            // dimensiune
-            // 
-            this.dimensiune.AutoSize = true;
-            this.dimensiune.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.dimensiune.Location = new System.Drawing.Point(751, 509);
-            this.dimensiune.Name = "dimensiune";
-            this.dimensiune.Size = new System.Drawing.Size(181, 20);
-            this.dimensiune.TabIndex = 6;
-            this.dimensiune.Text = "max size of bitmap data";
-            // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -110,65 +102,6 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "Number of random shapes";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // coordonate_punct_clickat
-            // 
-            this.coordonate_punct_clickat.AutoSize = true;
-            this.coordonate_punct_clickat.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.coordonate_punct_clickat.Location = new System.Drawing.Point(752, 439);
-            this.coordonate_punct_clickat.Name = "coordonate_punct_clickat";
-            this.coordonate_punct_clickat.Size = new System.Drawing.Size(203, 20);
-            this.coordonate_punct_clickat.TabIndex = 9;
-            this.coordonate_punct_clickat.Text = "coordonate punc selectat";
-            // 
-            // bitmap_after_click
-            // 
-            this.bitmap_after_click.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.bitmap_after_click.Location = new System.Drawing.Point(750, 389);
-            this.bitmap_after_click.Name = "bitmap_after_click";
-            this.bitmap_after_click.Size = new System.Drawing.Size(179, 40);
-            this.bitmap_after_click.TabIndex = 10;
-            this.bitmap_after_click.Text = "The bitmap after click";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(579, 389);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(109, 20);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Color of pixel:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(579, 439);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(159, 20);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Coordinates of pixel:";
-            // 
-            // verificare_event
-            // 
-            this.verificare_event.AutoSize = true;
-            this.verificare_event.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.verificare_event.Location = new System.Drawing.Point(762, 567);
-            this.verificare_event.Name = "verificare_event";
-            this.verificare_event.Size = new System.Drawing.Size(132, 20);
-            this.verificare_event.TabIndex = 13;
-            this.verificare_event.Text = "verificare_event";
-            // 
-            // ultimul_point
-            // 
-            this.ultimul_point.AutoSize = true;
-            this.ultimul_point.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ultimul_point.Location = new System.Drawing.Point(583, 509);
-            this.ultimul_point.Name = "ultimul_point";
-            this.ultimul_point.Size = new System.Drawing.Size(53, 20);
-            this.ultimul_point.TabIndex = 14;
-            this.ultimul_point.Text = "label4";
             // 
             // Portiune
             // 
@@ -304,6 +237,7 @@
             this.PrintPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PrintPicture.TabIndex = 27;
             this.PrintPicture.TabStop = false;
+            this.PrintPicture.Click += new System.EventHandler(this.PrintPicture_Click);
             // 
             // label5
             // 
@@ -369,7 +303,7 @@
             // BackgroundColor
             // 
             this.BackgroundColor.BackColor = System.Drawing.Color.IndianRed;
-            this.BackgroundColor.Location = new System.Drawing.Point(1216, 349);
+            this.BackgroundColor.Location = new System.Drawing.Point(1112, 507);
             this.BackgroundColor.Name = "BackgroundColor";
             this.BackgroundColor.Size = new System.Drawing.Size(60, 60);
             this.BackgroundColor.TabIndex = 33;
@@ -379,7 +313,7 @@
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label7.Location = new System.Drawing.Point(1193, 412);
+            this.label7.Location = new System.Drawing.Point(1082, 570);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(110, 64);
             this.label7.TabIndex = 34;
@@ -406,11 +340,76 @@
             this.label8.Text = "Brush Color";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // pd
+            // 
+            this.pd.UseEXDialog = true;
+            // 
+            // printDocument
+            // 
+            this.printDocument.EndPrint += new System.Drawing.Printing.PrintEventHandler(this.print_EndPrint);
+            this.printDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.print_PrintPage);
+            // 
+            // FillColor
+            // 
+            this.FillColor.BackColor = System.Drawing.Color.Teal;
+            this.FillColor.Location = new System.Drawing.Point(1324, 509);
+            this.FillColor.Name = "FillColor";
+            this.FillColor.Size = new System.Drawing.Size(60, 60);
+            this.FillColor.TabIndex = 37;
+            this.FillColor.TabStop = false;
+            this.FillColor.Click += new System.EventHandler(this.FillColor_Click);
+            // 
+            // label9
+            // 
+            this.label9.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label9.Location = new System.Drawing.Point(1298, 572);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(110, 37);
+            this.label9.TabIndex = 38;
+            this.label9.Text = "Fill Color";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // dimensiune
+            // 
+            this.dimensiune.AutoSize = true;
+            this.dimensiune.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.dimensiune.Location = new System.Drawing.Point(590, 305);
+            this.dimensiune.Name = "dimensiune";
+            this.dimensiune.Size = new System.Drawing.Size(181, 20);
+            this.dimensiune.TabIndex = 6;
+            this.dimensiune.Text = "max size of bitmap data";
+            // 
+            // InkCalculator
+            // 
+            this.InkCalculator.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.InkCalculator.Image = global::Doar_Picturebox.Properties.Resources.inks;
+            this.InkCalculator.Location = new System.Drawing.Point(1216, 349);
+            this.InkCalculator.Name = "InkCalculator";
+            this.InkCalculator.Size = new System.Drawing.Size(60, 60);
+            this.InkCalculator.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.InkCalculator.TabIndex = 39;
+            this.InkCalculator.TabStop = false;
+            this.InkCalculator.Click += new System.EventHandler(this.InkCalculator_Click);
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(1197, 412);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(101, 55);
+            this.label2.TabIndex = 40;
+            this.label2.Text = "Ink Calculator";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1532, 730);
+            this.ClientSize = new System.Drawing.Size(1482, 683);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.InkCalculator);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.FillColor);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.BrushColor);
             this.Controls.Add(this.label7);
@@ -433,12 +432,6 @@
             this.Controls.Add(this.Red_color);
             this.Controls.Add(this.Blue_color);
             this.Controls.Add(this.Portiune);
-            this.Controls.Add(this.ultimul_point);
-            this.Controls.Add(this.verificare_event);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.bitmap_after_click);
-            this.Controls.Add(this.coordonate_punct_clickat);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dimensiune);
             this.Controls.Add(this.number_of_figures);
@@ -452,6 +445,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.RandomSelectedShapesRun)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BackgroundColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BrushColor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FillColor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.InkCalculator)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -462,14 +457,7 @@
         private PictureBox Tablou;
         private TextBox number_of_figures;
         private SaveFileDialog sf;
-        private Label dimensiune;
         private Label label1;
-        private Label coordonate_punct_clickat;
-        private Label bitmap_after_click;
-        private Label label2;
-        private Label label3;
-        private Label verificare_event;
-        private Label ultimul_point;
         private Label Portiune;
         private Label Blue_color;
         private Label Red_color;
@@ -493,5 +481,12 @@
         private Label label7;
         private PictureBox BrushColor;
         private Label label8;
+        private PrintDialog pd;
+        private System.Drawing.Printing.PrintDocument printDocument;
+        private PictureBox FillColor;
+        private Label label9;
+        private Label dimensiune;
+        private PictureBox InkCalculator;
+        private Label label2;
     }
 }

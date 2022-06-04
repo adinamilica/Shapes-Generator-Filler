@@ -63,6 +63,16 @@ namespace Doar_Picturebox.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap inks {
+            get {
+                object obj = ResourceManager.GetObject("inks", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap istockphoto_1295474183_612x612 {
             get {
                 object obj = ResourceManager.GetObject("istockphoto-1295474183-612x612", resourceCulture);
