@@ -6,6 +6,13 @@ namespace Doar_Picturebox
     {
         public string selected_shape="0";
 
+        public string file_path = @"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\";
+
+        //public string file_path = @"../figuri/";
+
+        // public string new_file_path = @"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\";
+
+
         public Color background_color = Color.LightGray;
 
         public Color brush_color = Color.Red;
@@ -28,7 +35,7 @@ namespace Doar_Picturebox
                
             }
 
-            int nr_figuri = Convert.ToInt32(number_of_figures.Text);
+            int nr_figuri = Convert.ToInt32(number_of_shapes.Text);
 
             for (int i = 1; i <= nr_figuri; i++)
             {
@@ -145,6 +152,27 @@ namespace Doar_Picturebox
 
         }
 
+        void draw_random_shapes()
+        {
+            Graphics g = Graphics.FromImage(Tablou.Image);
+
+            background_color = BackgroundColor.BackColor;
+            g.Clear(background_color);
+
+            Manager manager = new Manager();
+
+            int nr_figuri = Convert.ToInt32(number_of_shapes.Text);
+
+            for (int i = 1; i <= nr_figuri; i++)
+            {
+                Random random = new Random();
+                int id =  random.Next(0,5);
+                Figura shape = manager.generate_shape(id);
+
+                shape.deseneaza(g, BrushColor.BackColor, 4);
+
+            }
+        }
 
         private void Tablou_Click(object sender, EventArgs e)
         {
@@ -155,15 +183,15 @@ namespace Doar_Picturebox
 
             Bitmap bmp;
 
-            if (File.Exists(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp"))
+            if (File.Exists(file_path+"figura.bmp"))
             { 
-                bmp = new Bitmap(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
-                dimensiune.Text = "DA, EXISTA FILEUL";
+                bmp = new Bitmap(file_path + "figura.bmp");
+                //dimensiune.Text = "DA, EXISTA FILEUL";
             }
             else { 
                 bmp = new Bitmap(Tablou.Width, Tablou.Height);
 
-                dimensiune.Text = "NU, NU EXISTA FILEUL";
+               // dimensiune.Text = "NU, NU EXISTA FILEUL";
             }
 
 
@@ -197,7 +225,7 @@ namespace Doar_Picturebox
             g.DrawImage(bmp, 0, 0);
 
 
-            Tablou.Image.Save(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura_tmp.bmp");
+            Tablou.Image.Save(file_path + "figura_tmp.bmp");
 
             bmp.Dispose();
 
@@ -213,7 +241,7 @@ namespace Doar_Picturebox
             System.GC.WaitForPendingFinalizers();
 
             try { 
-            File.Delete(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
+            File.Delete(file_path + "figura.bmp");
             }
 
             catch
@@ -222,10 +250,10 @@ namespace Doar_Picturebox
                 Tablou.Image = bmp;
             }
 
-            System.IO.File.Move(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura_tmp.bmp",
-                                @"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
+            System.IO.File.Move(file_path + "figura_tmp.bmp",
+                                file_path + "figura.bmp");
 
-             bmp = new Bitmap(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
+             bmp = new Bitmap(file_path + "figura.bmp");
 
              Tablou.Image = bmp;
 
@@ -248,7 +276,7 @@ namespace Doar_Picturebox
 
         public void printColorsNew(int nr_pixeli, Color culoare_pusa, Color culoare_veche, int lungime, int latime)
         {
-            Portiune.Text = nr_pixeli.ToString();
+           
             double procent = (double)((double)nr_pixeli / (double)(Tablou.Width * Tablou.Height));
             double suprafata = (double)((double)((double)lungime * (double)latime * (double)procent) / (double)100);
 
@@ -291,7 +319,7 @@ namespace Doar_Picturebox
                 double cY1 = (double)((double)((double)cT1 * (double)Y1) / (double)(C1 + M1 + Y1 + K1));
                 double cK1 = (double)((double)((double)cT1 * (double)K1) / (double)(C1 + M1 + Y1 + K1));
 
-
+                /*
                 double cTc = double.Parse(C_total.Text);
                 cTc = cTc - cC1;
                 C_total.Text = cTc.ToString();
@@ -379,10 +407,12 @@ namespace Doar_Picturebox
 
 
             pixeli_totali.Text = nr_pixeli_total.ToString();
+
+            */
         }
         public void printColors(int nr_pixeli, Color culoare_pusa, int lungime, int latime)
         {
-            Portiune.Text = nr_pixeli.ToString();
+            //Portiune.Text = nr_pixeli.ToString();
             double procent = (double)((double)nr_pixeli/(double)(Tablou.Width * Tablou.Height));
             double suprafata =(double)( (double)((double)lungime * (double)latime * (double)procent) /(double) 100);
 
@@ -390,9 +420,9 @@ namespace Doar_Picturebox
             int red = culoare_pusa.R;
             int green = culoare_pusa.G;
 
-            Blue_color.Text = blue.ToString();
-            Red_color.Text = red.ToString();
-            Green_color.Text = green.ToString();
+            //Blue_color.Text = blue.ToString();
+            //Red_color.Text = red.ToString();
+            //Green_color.Text = green.ToString();
 
             double green_derivat = (double)((double)green /(double)255);
             double red_derivat = (double) ((double) red / (double)255);
@@ -411,7 +441,7 @@ namespace Doar_Picturebox
             double cY = (double)((double)((double)cT * (double)Y) / (double)(C + M + Y + K));
             double cK = (double)((double)((double)cT * (double)K) / (double)(C + M + Y + K));
 
-            
+            /*
             double cTc = double.Parse(C_total.Text);
             cTc = cTc + cC;
             C_total.Text = cTc.ToString();
@@ -431,6 +461,7 @@ namespace Doar_Picturebox
             double nr_pixeli_total = double.Parse(pixeli_totali.Text);
             nr_pixeli_total = nr_pixeli_total + nr_pixeli;
             pixeli_totali.Text = nr_pixeli_total.ToString();
+            */
 
         }
 
@@ -580,12 +611,11 @@ namespace Doar_Picturebox
         {
             Bitmap bmp = new Bitmap(Tablou.Width, Tablou.Height);
 
-            // Tablou.BackColor = Color.LightGray;
-            background_color = Color.LightGray;
-
             Tablou.Image = bmp;
 
-            deseneaza();
+            //deseneaza();
+
+            draw_random_shapes();
 
             Tablou.Image.Save(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
 
@@ -628,7 +658,9 @@ namespace Doar_Picturebox
             for (int i = 1; i <= nr_figuri; i++)
             {
 
-                manager.generate_shape(int.Parse(selected_shape)).deseneaza(g, BrushColor.BackColor, 4);
+                Figura shape = manager.generate_shape(int.Parse(selected_shape));
+
+                   shape.deseneaza(g, BrushColor.BackColor, 4);
 
             }
 
@@ -712,5 +744,28 @@ namespace Doar_Picturebox
             var newForm = new InkCalculator();
             newForm.Show();
         }
+
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+            Bitmap bmp = new Bitmap(Tablou.Width, Tablou.Height);
+
+
+            Tablou.Image = bmp;
+
+
+            Graphics g = Graphics.FromImage(bmp);
+
+            background_color = Color.WhiteSmoke;
+            //background_color = BackgroundColor.BackColor;
+            g.Clear(background_color);
+
+            
+            Tablou.Image = bmp.Clone(new Rectangle(0, 0, 500, 500), System.Drawing.Imaging.PixelFormat.DontCare);
+            g.DrawImage(bmp, 0, 0);
+
+
+        }
+
+
     }
 }

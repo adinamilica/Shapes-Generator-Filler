@@ -283,13 +283,17 @@ namespace Doar_Picturebox
             return 0;
         }
 
+
+
         public Figura generate_shape(int id)
         {
             if (id == 0)
             {
+
                 Linie linie = new Linie(0, 0, 0, 0);
                 linie.RandomizeParameters();
                 return linie;
+
             }
 
             else if (id == 1)
