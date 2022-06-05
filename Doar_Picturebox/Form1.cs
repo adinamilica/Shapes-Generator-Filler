@@ -23,6 +23,8 @@ namespace Doar_Picturebox
         public Form1()
         {
             InitializeComponent();
+            if (File.Exists(file_path + "figura.bmp"))
+                File.Delete(file_path + "figura.bmp");
         }
 
         
@@ -161,7 +163,19 @@ namespace Doar_Picturebox
 
             Manager manager = new Manager();
 
-            int nr_figuri = Convert.ToInt32(number_of_shapes.Text);
+
+            int nr_figuri=0;
+
+            if (String.IsNullOrEmpty(number_of_shapes.Text))
+            nr_figuri = 25; 
+
+            else
+            
+                nr_figuri = Convert.ToInt32(number_of_shapes.Text);
+            
+            
+
+            
 
             for (int i = 1; i <= nr_figuri; i++)
             {
@@ -653,7 +667,16 @@ namespace Doar_Picturebox
 
             Manager manager = new Manager();
 
-            int nr_figuri = Convert.ToInt32(number_selected_shapes.Text);
+            int nr_figuri = 0;
+
+            if (String.IsNullOrEmpty(number_selected_shapes.Text))
+                nr_figuri = 25;
+
+            else
+
+                nr_figuri = Convert.ToInt32(number_selected_shapes.Text);
+
+            
 
             for (int i = 1; i <= nr_figuri; i++)
             {
