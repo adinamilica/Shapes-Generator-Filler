@@ -6,7 +6,7 @@ namespace Doar_Picturebox
     {
         public string selected_shape="0";
 
-        public string file_path = @"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\";
+        public string file_path = @"D:\C projects\OOP\Shapes-Generator-Filler\Doar_Picturebox\figuri\";
 
         //public string file_path = @"../figuri/";
 
@@ -173,9 +173,6 @@ namespace Doar_Picturebox
             
                 nr_figuri = Convert.ToInt32(number_of_shapes.Text);
             
-            
-
-            
 
             for (int i = 1; i <= nr_figuri; i++)
             {
@@ -214,7 +211,7 @@ namespace Doar_Picturebox
             
 
             Color targetColor = bmp.GetPixel(x, y);
-            Color replacementColor = Color.Purple;
+            Color replacementColor = FillColor.BackColor;
 
 
             if (targetColor.ToArgb().Equals(replacementColor.ToArgb()))
@@ -631,7 +628,7 @@ namespace Doar_Picturebox
 
             draw_random_shapes();
 
-            Tablou.Image.Save(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
+            Tablou.Image.Save(file_path + "figura.bmp");
 
 
 
@@ -640,7 +637,7 @@ namespace Doar_Picturebox
         private void SavePainting_Click(object sender, EventArgs e)
         {
             sf.DefaultExt = "bmp";
-            sf.FileName = "figura.bmp";
+            sf.FileName = "figura_final.bmp";
             sf.Filter = "Bitmap Image (.bmp)|*.bmp";
             sf.FilterIndex = 1;
             sf.RestoreDirectory = true;
@@ -689,7 +686,7 @@ namespace Doar_Picturebox
 
            
 
-            Tablou.Image.Save(@"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\figura.bmp");
+            Tablou.Image.Save(file_path + "figura.bmp");
 
         }
 

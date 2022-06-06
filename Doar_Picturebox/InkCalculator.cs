@@ -12,7 +12,7 @@ namespace Doar_Picturebox
 {
     public partial class InkCalculator : Form
     {
-        public string file_path = @"C:\Users\Adina Milica\Desktop\tot momentan\oop s2\Shapes-Generator-Filler\Doar_Picturebox\figuri\";
+        public string file_path = @"D:\C projects\OOP\Shapes-Generator-Filler\Doar_Picturebox\figuri\";
        // public string file_path = @"../../../figuri/";
         public InkCalculator()
         {

@@ -46,7 +46,6 @@ namespace Doar_Picturebox
             Random r1 = new Random();
             x1 = r1.Next(0, 500);
 
-
             Random r2 = new Random();
             y1 = r2.Next(0, 500);
 
@@ -165,7 +164,7 @@ namespace Doar_Picturebox
 
         public override double daLungime(Figura figura)
         {
-            return 3.141429 * (width / 2 + height / 2);
+            return 3.141592 * (width / 2 + height / 2);
         }
 
         public void RandomizeParameters()
@@ -218,7 +217,6 @@ namespace Doar_Picturebox
         {
             Random r1 = new Random();
             x1 = r1.Next(0, 500);
-
 
             Random r2 = new Random();
             y1 = r2.Next(0, 500);
