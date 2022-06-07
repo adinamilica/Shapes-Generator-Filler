@@ -767,6 +767,20 @@ namespace Doar_Picturebox
 
         private void pictureBox1_Click_1(object sender, EventArgs e)
         {
+
+            Tablou.Image.Dispose();
+
+            Tablou.Image = null;
+
+
+
+            System.GC.Collect();
+            System.GC.WaitForPendingFinalizers();
+
+
+            if (File.Exists(file_path + "figura.bmp"))
+                File.Delete(file_path + "figura.bmp");
+
             Bitmap bmp = new Bitmap(Tablou.Width, Tablou.Height);
 
 
